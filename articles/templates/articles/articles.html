@@ -1,0 +1,23 @@
+{% extends 'data/layout.html' %}
+{% load static %}
+
+{% block article %}<a class="lin" href="{% url 'data:data' %}"> Crypto </a> {% endblock %}
+
+{% block content %}
+<div class="articles" id="art">
+    <table class="table">
+        <caption><a href="{% url 'articles:update' %}">обновить список статей ↓</a></caption>
+        <tr>
+            <th>Самые Актуальные статьи из Мира Криптовалют</th>
+        </tr>
+        {% for i in data %}
+            <tr>
+                <td><a href="{{ i.url }}">{{ i.name }}</a></td>
+
+            </tr>
+        {% endfor %}
+
+    </table>
+</div>
+
+{% endblock %}

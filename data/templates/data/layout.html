@@ -1,0 +1,38 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>crypto </title>
+    <link type="text/css" href="{% static 'css/style.css' %}" rel="stylesheet"/>
+
+</head>
+<body class="bod">
+
+
+<header>
+    <a class='lin' href="{% url 'data:data' %}"><h1> Crypto Currency </h1></a>
+    <nav>
+        {% block article %}<a class="lin" href="{% url 'articles:articles' %}"> Articles </a> {% endblock %}
+        <a class="lin" href="{% url 'API:main' %}"> {API} </a>
+        <a class="lin" href="{% url 'users:login' %}"> {% block user %}  log in {% endblock %} </a>
+        <a class="lin" href="{% url 'users:register' %}"> register </a>
+        {% block favourite %}{% endblock %}
+
+    </nav>
+</header>
+<div class="content">
+
+    {% block content %}
+    {% endblock content %}
+
+</div>
+
+</body>
+</html>
+
+
+
+

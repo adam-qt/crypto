@@ -1,0 +1,77 @@
+{% extends 'data/layout.html' %}
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>crypto </title>
+    <link type="text/css" href="{% static 'css/style.css' %}" rel="stylesheet"/>
+
+</head>
+
+{% block user %}
+
+    {% if user %}
+        <a href='{% url 'users:logout' %}'>logout {{ user }}</a>
+    {% else %}
+        <a class="lin" href="{% url 'users:login' %}"> log in </a>
+    {% endif %}
+{% endblock %}
+
+
+{% block favourite %}
+    {% if user %}
+        <a class="lin" href="{% url 'data:favourite_list' %}"> избранные </a>
+    {% endif %}
+{% endblock %}
+
+
+{% block content %}
+    <div id = 'tabl'>
+        <form class='search' method="GET" action="{% url 'data:data' %}?search_query=search_query ">
+            <input type="text" name="search_query" placeholder="Поиск...">
+            <button type="submit">Найти</button>
+        </form>
+
+        <table class="table">
+            <caption><a href="{% url 'data:update' %}">ОБНОВИТЬ ДАННЫЕ ↓</a></caption>
+            <tr>
+                <th><a href="{% url 'data:data' %}?sort=name">Название</a></th>
+                <th><a href="{% url 'data:data' %}?sort=slug">Символ</a></th>
+                <th><a href="{% url 'data:data' %}?sort=total_supply">кол-во монет</a></th>
+                <th><a href="{% url 'data:data' %}?sort=price">Цена $</a></th>
+                <th><a href="{% url 'data:data' %}?sort=market_cap"> Капитализация</a></th>
+                <th><a href="{% url 'data:data' %}?sort=percent_change_24h"> Суточные изменения %</a></th>
+            </tr>
+            {% for i in data %}
+                <tr>
+                    <td><a href="{% url 'data:crypto_detail' i.id %}">{{ i.name }}</a></td>
+                    <td>{{ i.slug }}</td>
+                    <td>{{ i.total_supply }}</td>
+                    <td>{{ i.price }}</td>
+                    <td>{{ i.market_cap }}</td>
+                    <td>{{ i.percent_change_24h }}</td>
+                </tr>
+            {% endfor %}
+
+        </table>
+    </div>
+
+    <div class="pagination">
+ <span class="step-links">
+ {% if data.has_previous %}
+     <a href="?page={{ data.previous_page_number }}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">Previous</a>
+ {% endif %}
+     <span class="current">
+ Page {{ data.number }} of {{ data.paginator.num_pages }}.
+ </span>
+     {% if data.has_next %}
+         <a href="?page={{ data.next_page_number }}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">Next</a>
+     {% endif %}
+ </span>
+    </div>
+
+{% endblock %}
+
+
+
+
+

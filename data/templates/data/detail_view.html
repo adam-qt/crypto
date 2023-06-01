@@ -1,0 +1,58 @@
+{% extends 'data/layout.html' %}
+{% load static %}
+
+
+{% block user %}
+    {% if user %}
+        <a href='{% url 'users:logout' %}'>logout {{ user }}</a>
+    {% else %}
+        <a class="lin" href="{% url 'users:login' %}"> log in </a>
+    {% endif %}
+{% endblock %}
+
+
+{% block content %}
+    <div>
+        <table class="table">
+            <tr>
+                <th>Название</th>
+                <th>Символ</th>
+                <th>кол-во монет</th>
+                <th>Цена</th>
+                <th>Капитализация</th>
+                <th>Суточные изменения %</th>
+            </tr>
+            <tr>
+                <td>{{ crypto.name }}</td>
+                <td>{{ crypto.slug }}</td>
+                <td>{{ crypto.total_supply }}</td>
+                <td>{{ crypto.price }}</td>
+                <td>{{ crypto.market_cap }}</td>
+                <td>{{ crypto.percent_change_24h }}</td>
+            </tr>
+        </table>
+
+
+        {% if user %}
+
+            {% if isAdded %}
+                <p>вы уже отслеживаете данную валюту</p>
+                <a href="{% url 'data:remove_from_fav' crypto.id %}"> удалить из избранных </a>
+
+            {% else %}
+
+                <p>вы не отслеживаете данную валюту</p>
+                <a href="{% url 'data:add_to_fav' crypto.id %}"> добавить в избранное</a>
+
+            {% endif %}
+
+        {% else %}
+
+            <p>чтобы добавить валюту в список избранных вам нужно зарегистрироваться </p>
+
+        {% endif %}
+        <br>
+        <br>
+        <a href='{% url 'data:data' %}'>вернуться на главную</a>
+    </div>
+{% endblock %}

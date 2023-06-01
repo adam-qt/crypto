@@ -1,0 +1,47 @@
+{% extends 'data/layout.html' %}
+{% load static %}
+
+
+{% block user %}
+    {% if user %}
+        <a href='{% url 'users:logout' %}'>logout {{ user }}</a>
+    {% else %}
+        <a class="lin" href="{% url 'users:login' %}"> log in </a>
+    {% endif %}
+{% endblock %}
+
+
+{% block content %}
+    <div>
+        <table class="table">
+            <tr>
+                <th>Название</th>
+                <th>Символ</th>
+                <th>кол-во монет</th>
+                <th>Цена</th>
+                <th>Капитализация</th>
+
+                <th>Суточные изменения %</th>
+            </tr>
+
+            {% if data %}
+
+                {% for i in data %}
+
+                    <tr>
+                        <td><a href="{% url 'data:crypto_detail' i.id %}">{{ i.name }}</a></td>
+                        <td>{{ i.slug }}</td>
+                        <td>{{ i.total_supply }}</td>
+                        <td>{{ i.price }}</td>
+                        <td>{{ i.market_cap }}</td>
+                        <td>{{ i.percent_change_24h }}</td>
+                    </tr>
+
+                {% endfor %}
+
+            {% endif %}
+
+        </table>
+        <a href="{% url 'data:data' %}">вернуться на главную</a>
+    </div>
+{% endblock %}
